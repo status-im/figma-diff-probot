@@ -84,7 +84,11 @@ module.exports = robot => {
 
     let data = {}
 
-    diff.match(/^[-+]\s.*www\.figma\.com\/file\/.+\//gm).forEach(m => {
+    const regexMatch = diff.match(/^[-+]\s.*www\.figma\.com\/file\/.+\//gm)
+    if (!regexMatch) {
+      return
+    }
+    regexMatch.forEach(m => {
       data[m[0] === '-' ? 'before' : 'after'] = {
         'fileId': /www\.figma\.com\/file\/(.+)\//.exec(m).pop()
       }
